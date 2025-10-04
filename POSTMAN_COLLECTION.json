@@ -1,0 +1,297 @@
+{
+  "info": {
+    "name": "Health Risk Profiler API",
+    "description": "AI-Powered Health Risk Profiler - Complete API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        },
+        "description": "Check if the server is running"
+      }
+    },
+    {
+      "name": "Step 1 - Parse Input (JSON)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": 42,\n  \"smoker\": true,\n  \"exercise\": \"rarely\",\n  \"diet\": \"high sugar\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/parse",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "parse"]
+        },
+        "description": "Parse health survey data from JSON input"
+      }
+    },
+    {
+      "name": "Step 1 - Parse Input (Text)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Age: 42, Smoker: yes, Exercise: rarely, Diet: high sugar\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/parse",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "parse"]
+        },
+        "description": "Parse health survey data from text input using AI"
+      }
+    },
+    {
+      "name": "Step 1 - Parse Input (Image)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": "/path/to/survey-image.jpg",
+              "description": "Upload a health survey form image (field name must be 'image')"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/parse",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "parse"]
+        },
+        "description": "Parse health survey data from scanned image using OCR"
+      }
+    },
+    {
+      "name": "Step 1 - Incomplete Profile (Guardrail)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": 42\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/parse",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "parse"]
+        },
+        "description": "Test guardrail with incomplete data (>50% missing)"
+      }
+    },
+    {
+      "name": "Step 2 - Extract Factors",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": {\n    \"age\": 42,\n    \"smoker\": true,\n    \"exercise\": \"rarely\",\n    \"diet\": \"high sugar\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/extract-factors",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "extract-factors"]
+        },
+        "description": "Extract risk factors from health profile"
+      }
+    },
+    {
+      "name": "Step 3 - Classify Risk",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": {\n    \"age\": 42,\n    \"smoker\": true,\n    \"exercise\": \"rarely\",\n    \"diet\": \"high sugar\"\n  },\n  \"factors\": [\"smoking\", \"poor diet\", \"low exercise\"]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/classify-risk",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "classify-risk"]
+        },
+        "description": "Classify health risk level based on factors"
+      }
+    },
+    {
+      "name": "Step 4 - Generate Recommendations",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"risk_level\": \"high\",\n  \"factors\": [\"smoking\", \"poor diet\", \"low exercise\"]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/recommendations",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "recommendations"]
+        },
+        "description": "Generate personalized health recommendations"
+      }
+    },
+    {
+      "name": "Complete Profile Flow (JSON)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": 42,\n  \"smoker\": true,\n  \"exercise\": \"rarely\",\n  \"diet\": \"high sugar\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/complete-profile",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "complete-profile"]
+        },
+        "description": "Complete flow - all steps in one request (JSON)"
+      }
+    },
+    {
+      "name": "Complete Profile Flow (Image)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": "/path/to/survey-image.jpg",
+              "description": "Upload a health survey form image (field name must be 'image')"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/complete-profile",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "complete-profile"]
+        },
+        "description": "Complete flow - all steps in one request (Image)"
+      }
+    },
+    {
+      "name": "Test - Low Risk Profile",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": 25,\n  \"smoker\": false,\n  \"exercise\": \"daily\",\n  \"diet\": \"balanced and healthy\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/complete-profile",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "complete-profile"]
+        },
+        "description": "Test with low risk profile"
+      }
+    },
+    {
+      "name": "Test - Moderate Risk Profile",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": 45,\n  \"smoker\": false,\n  \"exercise\": \"sometimes\",\n  \"diet\": \"moderate sugar intake\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/complete-profile",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "complete-profile"]
+        },
+        "description": "Test with moderate risk profile"
+      }
+    },
+    {
+      "name": "Test - High Risk Profile",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": 55,\n  \"smoker\": true,\n  \"exercise\": \"never\",\n  \"diet\": \"high fat and sugar, processed foods\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/health/complete-profile",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health", "complete-profile"]
+        },
+        "description": "Test with high risk profile"
+      }
+    }
+  ]
+}
